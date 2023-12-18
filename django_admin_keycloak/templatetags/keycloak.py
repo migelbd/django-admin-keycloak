@@ -1,5 +1,5 @@
 from django import template
-from django.conf import settings
+from django_admin_keycloak.models import KeycloakProvider
 from django_admin_keycloak.oidc import get_auth_url
 
 register = template.Library()
@@ -11,16 +11,20 @@ def keycloak_authorization_url(context):
     return get_auth_url(request)
 
 
+def _get_providers(request):
+    for provider in KeycloakProvider.objects.filter(active=True).iterator():
+        yield {
+            'name': provider.name,
+            'url': get_auth_url(provider, request)
+        }
+
+
 @register.inclusion_tag('django_admin_keycloak/auth_link.html', takes_context=True)
-def keycloak_authorization_link(context):
+def keycloak_authorization_links(context):
     request = context['request']
-    name = settings.KEYCLOAK_CONFIG.get('name', 'OpenID Connect')
+    count = KeycloakProvider.objects.filter(active=True).count()
     return {
-        'url': get_auth_url(request),
-        'name': f'Войти через {name}'
+        'providers': _get_providers(request),
+        'has_one': count == 1,
+        'has_many': count > 1
     }
-
-
-@register.simple_tag()
-def keycloak_enabled():
-    return settings.KEYCLOAK_CONFIG.get('enabled', False)

@@ -1,1 +1,16 @@
-<a href="{{ url }}">{{ name }}</a>
+{% if has_many %}
+    <div class="keycloak-auth-links">
+        <p>Войти через:</p>
+        <ul>
+            {% for provider in providers %}
+                <li><a href="{{ provider.url }}">{{ provider.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% elif has_one %}
+    <div class="keycloak-auth-link">
+        {% for provider in providers %}
+            Войти через <a href="{{ provider.url }}">{{ provider.name }}</a>
+        {% endfor %}
+    </div>
+{% endif %}

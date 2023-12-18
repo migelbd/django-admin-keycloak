@@ -3,5 +3,5 @@ from django.urls import path
 from .views import auth_callback
 
 urlpatterns = [
-    path('callback', auth_callback, name='oidc-login')
+    path('callback/<slug:keycloak_slug>', auth_callback, name='oidc-login')
 ]
