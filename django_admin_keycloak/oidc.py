@@ -1,9 +1,9 @@
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.models import Group, User
 from django.http import HttpRequest
 from django.urls import reverse
-from django.utils import timezone
 from keycloak import KeycloakOpenID
 
 from django_admin_keycloak.models import KeycloakProvider
@@ -63,6 +63,7 @@ def auth_oidc(provider: KeycloakProvider, request: HttpRequest, code: str, redir
 
     user = create_user(userinfo)
     check_permissions(provider, user, userinfo)
+    check_member_of(provider, user, userinfo)
     login(request, user)
     request.session.set_expiry(timedelta(seconds=access_token['refresh_expires_in']))
     if user.is_staff:
@@ -86,7 +87,9 @@ def create_user(userinfo: dict) -> UserModel:
 
 
 def check_permissions(provider: KeycloakProvider, user: UserModel, userinfo: dict):
-    groups = userinfo['groups']
+    groups = userinfo.get('groups')
+    if not groups:
+        return
 
     is_superuser = provider.role_super_user in groups
     is_staff = provider.role_staff_user in groups
@@ -99,3 +102,11 @@ def check_permissions(provider: KeycloakProvider, user: UserModel, userinfo: dic
         changed = True
     if changed:
         user.save(update_fields=['is_superuser', 'is_staff'])
+
+
+def check_member_of(provider: KeycloakProvider, user: UserModel, userinfo: dict):
+    groups = userinfo.get('groups')
+    if not groups:
+        return
+    user.groups.clear()
+    user.groups.add(*Group.objects.filter(name__in=groups))
