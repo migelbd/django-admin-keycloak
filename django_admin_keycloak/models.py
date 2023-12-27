@@ -22,7 +22,8 @@ class KeycloakProvider(models.Model):
     server_url = models.URLField(_('server url'))
     realm_name = models.CharField(_('realm name'), max_length=128)
     client_id = models.CharField(_('client id'), max_length=128)
-    client_secret_key = models.CharField(_('client secret key'), max_length=128, blank=True, null=True)
+    client_secret = models.CharField(_('client secret key'), max_length=128, blank=True, null=True)
+    scope = models.TextField(_('scope'), default='openid profile')
 
     redirect_uri = models.CharField(
         _('redirect_uri'),
@@ -38,6 +39,10 @@ class KeycloakProvider(models.Model):
         default=_default_options,
         help_text=_('Available options list see https://python-keycloak.readthedocs.io/')
     )
+    is_static = models.BooleanField(_('is static'), default=False, editable=False)
+
+    def __str__(self):
+        return self.name or self.realm_name
 
     class Meta:
         db_table = 'keycloak_provider'

@@ -32,7 +32,7 @@ def get_oidc_client(provider: KeycloakProvider) -> KeycloakOpenID:
         server_url=provider.server_url,
         realm_name=provider.realm_name,
         client_id=provider.client_id,
-        client_secret_key=provider.client_secret_key,
+        client_secret_key=provider.client_secret,
         **provider.options
     )
 
@@ -41,9 +41,19 @@ def get_auth_url(provider: KeycloakProvider, request: HttpRequest, state: str | 
     oidc_client = get_oidc_client(provider)
     return oidc_client.auth_url(
         request.build_absolute_uri(reverse('oidc-login', kwargs={'keycloak_slug': provider.slug})),
-        scope='openid profile',
+        scope=provider.scope,
         state=state or ''
     )
+
+
+def get_next_url(request: HttpRequest, default: str) -> str:
+    try:
+        next_url = request.GET['next']
+        if isinstance(next_url, (list, tuple)):
+            next_url = next_url[0]
+        return next_url
+    except KeyError:
+        return default
 
 
 def auth_oidc(provider: KeycloakProvider, request: HttpRequest, code: str, redirect_uri: str):
@@ -66,10 +76,8 @@ def auth_oidc(provider: KeycloakProvider, request: HttpRequest, code: str, redir
     check_member_of(provider, user, userinfo)
     login(request, user)
     request.session.set_expiry(timedelta(seconds=access_token['refresh_expires_in']))
-    if user.is_staff:
-        return reverse('admin:index')
-    else:
-        return redirect_uri
+
+    return get_next_url(request, redirect_uri)
 
 
 def create_user(userinfo: dict) -> UserModel:
