@@ -95,17 +95,3 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 30
-
-KEYCLOAK_PROVIDERS = [
-    {
-        'slug': 'local_django',
-        'name': 'Local',
-        'client_id': 'local_django',
-        'client_secret': 'PjcqssJU2UhO0YjbPRaEcPZxbtaUL2kj',
-        'redirect_uri': '/admin',
-        'server_url': 'https://idp.devconf.su',
-        'realm_name': 'Devconf',
-        'role_staff_user': 'dev_staff',
-        'role_super_user': 'dev_super_user',
-    }
-]
