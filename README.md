@@ -1,6 +1,6 @@
 # django-admin-keycloak
 
-![](/Users/sven/PycharmProjects/django-admin-keycloak/example.png)
+![](./example.png)
 
 ### Settings 
 ```python
