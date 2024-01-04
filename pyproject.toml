@@ -1,9 +1,17 @@
 [tool.poetry]
 name = "django-admin-keycloak"
-version = "0.2.0"
+version = "0.2.1"
 description = "Django Admin Keycloak"
-authors = ["Михаил <migel.bd@gmail.com>"]
+authors = ["Mikhail Badrazhan <mikhail@devilweb.ru>"]
 readme = "README.md"
+repository = "https://github.com/migelbd/django-admin-keycloak"
+keywords = ["keycloak", "django"]
+classifiers = [
+    "Framework :: Django :: 4",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
 packages = [{ include = 'django_admin_keycloak' }]
 
 [tool.poetry.dependencies]
