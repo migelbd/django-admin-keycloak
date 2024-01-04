@@ -4,8 +4,6 @@ from django.utils.translation import gettext_lazy as _
 
 from django_admin_keycloak.models import KeycloakProvider
 
-admin.site.login_template = 'django_admin_keycloak/login.html'
-
 
 class KeycloakProviderModelForm(forms.ModelForm):
     class Meta:

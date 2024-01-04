@@ -9,4 +9,4 @@ class DjangoAdminKeycloakConfig(AppConfig):
 
     def ready(self):
         from django_admin_keycloak.static_settings import check_static_config
-        register(check_static_config, 'keycloak', name="keycloak_static_config", )
+        register(check_static_config, 'keycloak', name="keycloak_static_config")

@@ -1,0 +1,8 @@
+{% extends 'admin/login.html' %}
+{% load i18n keycloak %}
+
+{% block content %}
+    {{ block.super }}
+    {% keycloak_authorization_links %}
+{% endblock %}
+

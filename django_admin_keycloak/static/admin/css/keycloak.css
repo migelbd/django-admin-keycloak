@@ -1,0 +1,37 @@
+.btn-sso-login {
+    background: var(--button-bg);
+    color: var(--button-fg) !important;
+    padding: 5px 15px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-sso-login:hover {
+    background: var(--button-hover-bg);
+    text-decoration: none;
+}
+
+
+.keycloak-auth-link {
+    margin: 4px auto;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.keycloak-auth-link > a {
+    margin: auto 2px;
+}
+
+.keycloak-auth > hr {
+    padding: 1px;
+}
+
+.keycloak-auth-title {
+    margin: 4px 0 auto;
+    text-align: center;
+}

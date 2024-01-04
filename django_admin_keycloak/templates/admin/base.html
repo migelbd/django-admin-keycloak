@@ -1,5 +1,8 @@
 {% extends 'admin/base.html' %}
-{% load i18n keycloak %}
+{% load i18n keycloak static %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static "admin/css/keycloak.css" %}">
+{% endblock %}
 {% block userlinks %}
     {% if site_url %}
         <a href="{{ site_url }}">{% translate 'View site' %}</a> /

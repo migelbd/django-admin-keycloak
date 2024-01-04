@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-admin-keycloak\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-04 11:07+0000\n"
+"POT-Creation-Date: 2024-01-04 13:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,11 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: django_admin_keycloak/admin.py:41
+
+#: django_admin_keycloak/admin.py:42
 msgid "Server"
 msgstr "Сервер"
 
-#: django_admin_keycloak/admin.py:42
+#: django_admin_keycloak/admin.py:43
 msgid "Other Info"
 msgstr "Разная информация"
 
@@ -81,7 +82,7 @@ msgstr "опции"
 
 #: django_admin_keycloak/models.py:42
 msgid "Available options list see https://python-keycloak.readthedocs.io/"
-msgstr "Доступные опции смотрите https://python-keycloak.readthedocs.io/"
+msgstr "Доступные опции смотрите на https://python-keycloak.readthedocs.io/"
 
 #: django_admin_keycloak/models.py:44
 msgid "is static"
@@ -91,7 +92,30 @@ msgstr "статическая"
 msgid "Keycloak Provider"
 msgstr "Keycloak Провайдер"
 
+#: django_admin_keycloak/templates/admin/base.html:8
+msgid "View site"
+msgstr ""
 
-#: django_admin_keycloak/templates/admin/base.html:18
+#: django_admin_keycloak/templates/admin/base.html:13
+msgid "Documentation"
+msgstr ""
+
+#: django_admin_keycloak/templates/admin/base.html:17
+msgid "Change password"
+msgstr ""
+
+#: django_admin_keycloak/templates/admin/base.html:21
 msgid "SSO Account"
-msgstr "SSO Аккаунт"
+msgstr "Аккаунт"
+
+#: django_admin_keycloak/templates/admin/base.html:26
+msgid "Log out"
+msgstr ""
+
+#: django_admin_keycloak/templates/django_admin_keycloak/auth_link.html:4
+msgid "Login with"
+msgstr "Войти через"
+
+#: django_admin_keycloak/templates/django_admin_keycloak/login-error.html:4
+msgid "Error authorization"
+msgstr "Ошибка авторизации"

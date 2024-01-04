@@ -22,11 +22,8 @@ def _get_providers(request):
 @register.inclusion_tag('django_admin_keycloak/auth_link.html', takes_context=True)
 def keycloak_authorization_links(context):
     request = context['request']
-    count = KeycloakProvider.objects.filter(active=True).count()
     return {
         'providers': _get_providers(request),
-        'has_one': count == 1,
-        'has_many': count > 1
     }
 
 

@@ -1,16 +1,11 @@
-{% if has_many %}
-    <div class="keycloak-auth-links">
-        <p>Войти через:</p>
-        <ul>
-            {% for provider in providers %}
-                <li><a href="{{ provider.url }}">{{ provider.name }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-{% elif has_one %}
+{% load i18n static %}
+<div class="keycloak-auth">
+    <hr>
+    <p class="keycloak-auth-title">{% translate 'Login with' %}</p>
     <div class="keycloak-auth-link">
-        {% for provider in providers %}
-            Войти через <a href="{{ provider.url }}">{{ provider.name }}</a>
-        {% endfor %}
-    </div>
-{% endif %}
+    {% for provider in providers %}
+        <a class="btn-sso-login" href="{{ provider.url }}">{{ provider.name }}</a>
+    {% endfor %}
+</div>
+</div>
+
