@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: django-admin-keycloak\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-04 11:07+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+#: django_admin_keycloak/admin.py:41
+msgid "Server"
+msgstr "Сервер"
+
+#: django_admin_keycloak/admin.py:42
+msgid "Other Info"
+msgstr "Разная информация"
+
+#: django_admin_keycloak/models.py:20
+msgid "active"
+msgstr "активно"
+
+#: django_admin_keycloak/models.py:21
+msgid "slug"
+msgstr "slug"
+
+#: django_admin_keycloak/models.py:22
+msgid "name"
+msgstr "имя"
+
+#: django_admin_keycloak/models.py:24
+msgid "server url"
+msgstr "url сервера"
+
+#: django_admin_keycloak/models.py:25
+msgid "realm name"
+msgstr "realm name"
+
+#: django_admin_keycloak/models.py:26
+msgid "client id"
+msgstr "client id"
+
+#: django_admin_keycloak/models.py:27
+msgid "client secret key"
+msgstr "client secret key"
+
+#: django_admin_keycloak/models.py:28
+msgid "scope"
+msgstr "scope"
+
+#: django_admin_keycloak/models.py:31
+msgid "redirect_uri"
+msgstr "redirect_uri"
+
+#: django_admin_keycloak/models.py:34
+msgid "The redirect URI for user is not staff"
+msgstr "Ссылка редиректа если пользователь не админ"
+
+#: django_admin_keycloak/models.py:36
+msgid "superuser role"
+msgstr "роль супер-пользователя"
+
+#: django_admin_keycloak/models.py:37
+msgid "staff user role"
+msgstr "роль админа"
+
+#: django_admin_keycloak/models.py:40
+msgid "options"
+msgstr "опции"
+
+#: django_admin_keycloak/models.py:42
+msgid "Available options list see https://python-keycloak.readthedocs.io/"
+msgstr "Доступные опции смотрите https://python-keycloak.readthedocs.io/"
+
+#: django_admin_keycloak/models.py:44
+msgid "is static"
+msgstr "статическая"
+
+#: django_admin_keycloak/models.py:54 django_admin_keycloak/models.py:55
+msgid "Keycloak Provider"
+msgstr "Keycloak Провайдер"
+
+
+#: django_admin_keycloak/templates/admin/base.html:18
+msgid "SSO Account"
+msgstr "SSO Аккаунт"

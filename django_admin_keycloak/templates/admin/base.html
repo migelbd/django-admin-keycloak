@@ -15,7 +15,7 @@
     {% endif %}
     {% sso_account as account_link %}
     {% if account_link %}
-        <a href="{{ account_link }}">{% translate 'Account' %}</a> /
+        <a href="{{ account_link }}">{% translate 'SSO Account' %}</a> /
     {% endif %}
 
     <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
