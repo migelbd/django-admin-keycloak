@@ -28,3 +28,14 @@ def keycloak_authorization_links(context):
         'has_one': count == 1,
         'has_many': count > 1
     }
+
+
+@register.simple_tag(name='sso_account', takes_context=True)
+def get_account_link(context):
+    request = context['request']
+    try:
+        provider = KeycloakProvider.objects.get(pk=request.session['keycloak']['pk'])
+    except (KeycloakProvider.DoesNotExist, KeyError):
+        return
+
+    return provider.get_account_link()

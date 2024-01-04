@@ -46,6 +46,9 @@ class KeycloakProvider(models.Model):
     def __str__(self):
         return self.name or self.realm_name
 
+    def get_account_link(self) -> str:
+        return f'{self.server_url}/realms/{self.realm_name}/account'
+
     class Meta:
         db_table = 'keycloak_provider'
         verbose_name = _('Keycloak Provider')

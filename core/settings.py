@@ -7,7 +7,6 @@ ALLOWED_HOSTS = ['*']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -15,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_admin_keycloak',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [

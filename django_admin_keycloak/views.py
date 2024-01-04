@@ -42,7 +42,7 @@ def auth_logout(request):
         return JsonResponse({'success': True})
     token = request.body.decode('utf-8').split('=', maxsplit=1)[1]
     base64_string = token.split('.')[1]
-    data = json.loads(base64.b64decode(f'{base64_string}=').decode('utf-8'))
+    data = json.loads(base64.b64decode(f'{base64_string}====').decode('utf-8'))
     sid = data.get('sid')
     with atomic():
         KeycloakSession.objects.filter(sid=sid).delete()
