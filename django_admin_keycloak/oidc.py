@@ -56,8 +56,10 @@ def get_next_url(request: HttpRequest, default: str) -> str:
         return default
 
 
-def auth_oidc(provider: KeycloakProvider, request: HttpRequest, code: str, redirect_uri: str):
+def auth_oidc(provider: KeycloakProvider, request: HttpRequest):
     oidc_client = get_oidc_client(provider)
+    code = request.GET.get('code')
+    sid = request.GET.get('session_state')
     access_token = oidc_client.token(
         grant_type='authorization_code',
         code=code,
@@ -65,9 +67,11 @@ def auth_oidc(provider: KeycloakProvider, request: HttpRequest, code: str, redir
     )
 
     request.session['keycloak'] = {
+        'sid': sid,
         'token': access_token,
         'pk': provider.pk
     }
+    request.session.sid = sid
 
     userinfo = oidc_client.userinfo(token=access_token['access_token'])
 
@@ -77,7 +81,7 @@ def auth_oidc(provider: KeycloakProvider, request: HttpRequest, code: str, redir
     login(request, user)
     request.session.set_expiry(timedelta(seconds=access_token['refresh_expires_in']))
 
-    return get_next_url(request, redirect_uri)
+    return get_next_url(request, provider.redirect_uri)
 
 
 def create_user(userinfo: dict) -> UserModel:

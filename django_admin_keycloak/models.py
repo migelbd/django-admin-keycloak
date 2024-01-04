@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.contrib.sessions.base_session import AbstractBaseSession
+from django.contrib.sessions.models import SessionManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -48,3 +50,18 @@ class KeycloakProvider(models.Model):
         db_table = 'keycloak_provider'
         verbose_name = _('Keycloak Provider')
         verbose_name_plural = _('Keycloak Provider')
+
+
+class KeycloakSession(AbstractBaseSession):
+    objects = SessionManager()
+
+    sid = models.UUIDField(null=True)
+
+    @classmethod
+    def get_session_store_class(cls):
+        from django.contrib.sessions.backends.db import SessionStore
+
+        return SessionStore
+
+    class Meta(AbstractBaseSession.Meta):
+        db_table = "keycloak_session"

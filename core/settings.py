@@ -4,6 +4,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u#g!pb+^f0*pkqb6uo9e77aarg+4j5*2fa)s^j=wr0j=b725!r'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -95,3 +96,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 30
+
+SESSION_ENGINE = 'django_admin_keycloak.session.db'
