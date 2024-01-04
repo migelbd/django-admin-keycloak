@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from django_admin_keycloak.models import KeycloakProvider
+from django_admin_keycloak.models import KeycloakProvider, KeycloakSession
 
 
 class KeycloakProviderModelForm(forms.ModelForm):
@@ -62,3 +62,22 @@ class KeycloakProviderAdmin(admin.ModelAdmin):
         return super().has_delete_permission(request, obj)
 
     search_fields = ('name', 'slug')
+
+
+@admin.register(KeycloakSession)
+class KeycloakSessionAdmin(admin.ModelAdmin):
+    list_display = (
+        'sid',
+        'user',
+        'provider',
+        'created_at',
+    )
+
+    search_fields = ('sid', 'user__username', 'user__email', 'provider__name', 'provider__slug')
+    list_filter = ('provider__name',)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False

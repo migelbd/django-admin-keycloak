@@ -1,12 +1,11 @@
 # django-admin-keycloak
 
-![](./example.png)
+![](https://github.com/migelbd/django-admin-keycloak/raw/main/example.png)
 
+## Keycloak
+Create Client OpenID with callback url `https://keycloak.example.ru/sso/*`
 ### Settings 
 ```python
-# need for Backchannel logout
-SESSION_ENGINE = 'django_admin_keycloak.session.db' 
-# or django_admin_keycloak.session.cache
 
 # define static config or add provider later in admin management
 KEYCLOAK_PROVIDERS = [
@@ -29,7 +28,7 @@ Add to urls.py
 ```python
 urlpatterns = [
     # ...,
-    path('auth/', include('django_admin_keycloak.url')),
+    path('sso/', include('django_admin_keycloak.url')),
     # ...
 ]
 ```
@@ -38,3 +37,14 @@ If you define static config, you must execute command for update providers.
 ```bash
 python manage.py update_static_providers
 ```
+## Available signals
+### user_sso_login
+###### On login SSO user
+- session: KeycloakSession
+- request: HttpRequest
+- userinfo: dict
+- access_token: str
+#### user_sso_logout
+###### On logout SSO user
+- session: KeycloakSession
+- request: HttpRequest

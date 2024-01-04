@@ -7,6 +7,8 @@ from django.urls import reverse
 from keycloak import KeycloakOpenID
 
 from django_admin_keycloak.models import KeycloakProvider
+from django_admin_keycloak.signals import sso_user_login
+from django_admin_keycloak.utils import save_sso_session
 
 UserModel = get_user_model()
 
@@ -66,19 +68,28 @@ def auth_oidc(provider: KeycloakProvider, request: HttpRequest):
         redirect_uri=request.build_absolute_uri(reverse('oidc-login', kwargs={'keycloak_slug': provider.slug}))
     )
 
+    userinfo = oidc_client.userinfo(token=access_token['access_token'])
+    user = create_user(userinfo)
+
+    login(request, user)
     request.session['keycloak'] = {
         'sid': sid,
         'token': access_token,
         'pk': provider.pk
     }
-    request.session.sid = sid
+    sso_session = save_sso_session(request, provider, sid)
 
-    userinfo = oidc_client.userinfo(token=access_token['access_token'])
-
-    user = create_user(userinfo)
     check_permissions(provider, user, userinfo)
     check_member_of(provider, user, userinfo)
-    login(request, user)
+
+    sso_user_login.send(
+        sso_session.__class__,
+        session=sso_session,
+        request=request,
+        userinfo=userinfo,
+        access_token=access_token
+    )
+
     request.session.set_expiry(timedelta(seconds=access_token['refresh_expires_in']))
 
     return get_next_url(request, provider.redirect_uri)

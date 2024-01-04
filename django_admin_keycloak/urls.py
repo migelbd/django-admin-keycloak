@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import auth_callback, auth_logout
+from .views import KeycloakLoginView, KeycloakLogoutView, KeycloakErrorView
 
 urlpatterns = [
-    path('callback/<slug:keycloak_slug>', auth_callback, name='oidc-login'),
-    path('sso-logout', auth_logout, name='oidc-logout'),
-    path('sso-error', auth_logout, name='oidc-login-error'),
+    path('login/<slug:keycloak_slug>', KeycloakLoginView.as_view(), name='oidc-login'),
+    path('logout', KeycloakLogoutView.as_view(), name='oidc-logout'),
+    path('error', KeycloakErrorView.as_view(), name='oidc-login-error'),
 ]

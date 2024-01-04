@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.sessions.base_session import AbstractBaseSession
-from django.contrib.sessions.models import SessionManager
+
 from django.db import models
+from django.db.models.signals import post_delete
 from django.utils.translation import gettext_lazy as _
 
 UserModel = get_user_model()
@@ -55,16 +56,29 @@ class KeycloakProvider(models.Model):
         verbose_name_plural = _('Keycloak Provider')
 
 
-class KeycloakSession(AbstractBaseSession):
-    objects = SessionManager()
+class KeycloakSession(models.Model):
+    provider = models.ForeignKey(KeycloakProvider, on_delete=models.CASCADE, related_name='sessions')
+    sid = models.UUIDField(primary_key=True, verbose_name=_('SID'), editable=False)
+    django_session_key = models.CharField(_("session key"), max_length=40)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='sso_sessions')
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('updated at'), auto_now=True)
 
-    sid = models.UUIDField(null=True)
+    def __str__(self):
+        return str(self.sid)
 
-    @classmethod
-    def get_session_store_class(cls):
-        from django.contrib.sessions.backends.db import SessionStore
-
-        return SessionStore
-
-    class Meta(AbstractBaseSession.Meta):
+    class Meta:
         db_table = "keycloak_session"
+        verbose_name = _('Keycloak Session')
+        verbose_name_plural = _('Keycloak Sessions')
+
+
+def delete_session(sender, instance: KeycloakSession, **kwargs):
+    try:
+        from django.contrib.sessions.models import Session
+        Session.objects.filter(pk=instance.django_session_key).delete()
+    except Exception:
+        pass
+
+
+post_delete.connect(delete_session, sender=KeycloakSession)

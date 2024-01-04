@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-admin-keycloak\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-04 13:26+0000\n"
+"POT-Creation-Date: 2024-01-04 23:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,77 +20,101 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: django_admin_keycloak/admin.py:42
+#: django_admin_keycloak/admin.py:39
 msgid "Server"
 msgstr "Сервер"
 
-#: django_admin_keycloak/admin.py:43
+#: django_admin_keycloak/admin.py:40
 msgid "Other Info"
 msgstr "Разная информация"
 
-#: django_admin_keycloak/models.py:20
+#: django_admin_keycloak/models.py:21
 msgid "active"
 msgstr "активно"
 
-#: django_admin_keycloak/models.py:21
+#: django_admin_keycloak/models.py:22
 msgid "slug"
 msgstr "slug"
 
-#: django_admin_keycloak/models.py:22
+#: django_admin_keycloak/models.py:23
 msgid "name"
 msgstr "имя"
 
-#: django_admin_keycloak/models.py:24
+#: django_admin_keycloak/models.py:25
 msgid "server url"
 msgstr "url сервера"
 
-#: django_admin_keycloak/models.py:25
+#: django_admin_keycloak/models.py:26
 msgid "realm name"
 msgstr "realm name"
 
-#: django_admin_keycloak/models.py:26
+#: django_admin_keycloak/models.py:27
 msgid "client id"
 msgstr "client id"
 
-#: django_admin_keycloak/models.py:27
+#: django_admin_keycloak/models.py:28
 msgid "client secret key"
 msgstr "client secret key"
 
-#: django_admin_keycloak/models.py:28
+#: django_admin_keycloak/models.py:29
 msgid "scope"
 msgstr "scope"
 
-#: django_admin_keycloak/models.py:31
+#: django_admin_keycloak/models.py:32
 msgid "redirect_uri"
 msgstr "redirect_uri"
 
-#: django_admin_keycloak/models.py:34
+#: django_admin_keycloak/models.py:35
 msgid "The redirect URI for user is not staff"
 msgstr "Ссылка редиректа если пользователь не админ"
 
-#: django_admin_keycloak/models.py:36
+#: django_admin_keycloak/models.py:37
 msgid "superuser role"
 msgstr "роль супер-пользователя"
 
-#: django_admin_keycloak/models.py:37
+#: django_admin_keycloak/models.py:38
 msgid "staff user role"
 msgstr "роль админа"
 
-#: django_admin_keycloak/models.py:40
+#: django_admin_keycloak/models.py:41
 msgid "options"
 msgstr "опции"
 
-#: django_admin_keycloak/models.py:42
+#: django_admin_keycloak/models.py:43
 msgid "Available options list see https://python-keycloak.readthedocs.io/"
 msgstr "Доступные опции смотрите на https://python-keycloak.readthedocs.io/"
 
-#: django_admin_keycloak/models.py:44
+#: django_admin_keycloak/models.py:45
 msgid "is static"
 msgstr "статическая"
 
-#: django_admin_keycloak/models.py:54 django_admin_keycloak/models.py:55
+#: django_admin_keycloak/models.py:55 django_admin_keycloak/models.py:56
 msgid "Keycloak Provider"
 msgstr "Keycloak Провайдер"
+
+#: django_admin_keycloak/models.py:61
+msgid "SID"
+msgstr "SID"
+
+#: django_admin_keycloak/models.py:62
+msgid "session key"
+msgstr ""
+
+#: django_admin_keycloak/models.py:64
+msgid "created at"
+msgstr "создано"
+
+#: django_admin_keycloak/models.py:65
+msgid "updated at"
+msgstr "обновлено"
+
+#: django_admin_keycloak/models.py:72
+msgid "Keycloak Session"
+msgstr "Keycloak сессия"
+
+#: django_admin_keycloak/models.py:73
+msgid "Keycloak Sessions"
+msgstr "Keycloak сессии"
 
 #: django_admin_keycloak/templates/admin/base.html:8
 msgid "View site"
