@@ -4,6 +4,8 @@
 
 ## Keycloak
 Create Client OpenID with callback url `https://keycloak.example.ru/sso/*`
+add client scopes "roles" and 
+set client Backchannel logout URL `https://keycloak.example.ru/sso/logout`
 ### Settings 
 ```python
 
@@ -23,7 +25,14 @@ KEYCLOAK_PROVIDERS = [
 ]
 
 ```
-
+Add to INSTALLED_APPS
+```python
+INSTALLED_APPS = [
+    'django_admin_keycloak',
+    'django.contrib.admin',
+    # ...
+]
+```
 Add to urls.py
 ```python
 urlpatterns = [

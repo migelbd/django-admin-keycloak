@@ -72,12 +72,8 @@ def auth_oidc(provider: KeycloakProvider, request: HttpRequest):
     user = create_user(userinfo)
 
     login(request, user)
-    request.session['keycloak'] = {
-        'sid': sid,
-        'token': access_token,
-        'pk': provider.pk
-    }
-    sso_session = save_sso_session(request, provider, sid)
+
+    sso_session = save_sso_session(request, provider, sid, access_token)
 
     check_permissions(provider, user, userinfo)
     check_member_of(provider, user, userinfo)

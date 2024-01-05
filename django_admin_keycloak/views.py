@@ -36,7 +36,7 @@ class KeycloakLoginView(View):
             )
         except KeycloakPostError as e:
             logger.error(e)
-            return redirect('django_admin_keycloak:oidc-login-error')
+            return redirect('oidc-login-error')
 
         return HttpResponseRedirect(redirect_uri)
 
