@@ -3,6 +3,7 @@ from .models import KeycloakSession, KeycloakProvider
 
 def save_sso_session(request, provider: KeycloakProvider, keycloak_session: str, keycloak_access_token: dict):
     request.session['keycloak_sid'] = keycloak_session
+    request.session['keycloak_pk'] = provider.pk
     request.session['keycloak_access_token'] = keycloak_access_token
     try:
         session = KeycloakSession.objects.get(pk=keycloak_session)

@@ -31,7 +31,7 @@ def keycloak_authorization_links(context):
 def get_account_link(context):
     request = context['request']
     try:
-        provider = KeycloakProvider.objects.get(pk=request.session['keycloak']['pk'])
+        provider = KeycloakProvider.objects.get(pk=request.session['keycloak_pk'])
     except (KeycloakProvider.DoesNotExist, KeyError):
         return
 

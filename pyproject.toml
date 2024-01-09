@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-admin-keycloak"
-version = "0.2.3"
+version = "0.2.4"
 description = "Django Admin Keycloak"
 authors = ["Mikhail Badrazhan <mikhail@devilweb.ru>"]
 readme = "README.md"
