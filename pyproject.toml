@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-admin-keycloak"
-version = "0.3.0"
+version = "0.3.1"
 description = "Django Admin Keycloak"
 authors = ["Mikhail Badrazhan <mikhail@devilweb.ru>"]
 readme = "README.md"
@@ -18,7 +18,7 @@ packages = [{ include = 'django_admin_keycloak' }]
 [tool.poetry.dependencies]
 python = "^3.10"
 python-keycloak = "^3.7.0"
-django = "^5"
+django = ">=4, <6"
 
 [build-system]
 requires = ["poetry-core"]
