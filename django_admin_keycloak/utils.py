@@ -1,3 +1,7 @@
+from datetime import timedelta
+
+from django.utils import timezone
+
 from .models import KeycloakSession, KeycloakProvider
 
 
@@ -16,4 +20,9 @@ def save_sso_session(request, provider: KeycloakProvider, keycloak_session: str,
             django_session_key=request.session.session_key,
             user=request.user
         )
+    clear_sso_session()
     return session
+
+
+def clear_sso_session():
+    KeycloakSession.objects.filter(created_at__lt=timezone.now() - timedelta(days=30)).delete()
