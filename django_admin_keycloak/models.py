@@ -1,9 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.contrib.sessions.base_session import AbstractBaseSession
+from django.contrib.sessions.models import Session
 
 from django.db import models
 from django.db.models.signals import post_delete
 from django.utils.translation import gettext_lazy as _
+
+from django_admin_keycloak.signals import sso_user_login
 
 UserModel = get_user_model()
 
@@ -21,7 +24,7 @@ class KeycloakProvider(models.Model):
     active = models.BooleanField(_('active'), default=True)
     slug = models.SlugField(_('slug'), unique=True)
     name = models.CharField(_('name'), max_length=128)
-
+    app_name = models.CharField(_('app name'), max_length=128, blank=True)
     server_url = models.URLField(_('server url'))
     realm_name = models.CharField(_('realm name'), max_length=128)
     client_id = models.CharField(_('client id'), max_length=128)
@@ -47,8 +50,13 @@ class KeycloakProvider(models.Model):
     def __str__(self):
         return self.name or self.realm_name
 
-    def get_account_link(self) -> str:
-        return f'{self.server_url}/realms/{self.realm_name}/account'
+    def get_account_link(self, referrer: str | None = None, referrer_uri: str | None = None) -> str:
+        params = ''
+        if referrer_uri:
+            if not referrer:
+                referrer = 'App'
+            params = f'?referrer={referrer}&referrer_uri={referrer_uri}'
+        return f'{self.server_url}/realms/{self.realm_name}/account{params}'
 
     class Meta:
         db_table = 'keycloak_provider'
@@ -73,12 +81,45 @@ class KeycloakSession(models.Model):
         verbose_name_plural = _('Keycloak Sessions')
 
 
+class KeycloakUser(models.Model):
+    provider = models.ForeignKey(KeycloakProvider, on_delete=models.CASCADE, related_name='users')
+    user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='keycloak_user')
+    preferred_username = models.CharField(_('username'), max_length=128)
+    given_name = models.CharField(_('first name'), max_length=128, blank=True)
+    family_name = models.CharField(_('first name'), max_length=128, blank=True)
+    email = models.EmailField(_('email address'), null=True, blank=True)
+    email_verified = models.BooleanField(_('email verified'), default=False)
+    raw_data = models.JSONField()
+
+    class Meta:
+        db_table = "keycloak_user"
+        verbose_name = _('Keycloak User')
+        verbose_name_plural = _('Keycloak Users')
+
+    def __str__(self):
+        return self.preferred_username
+
+
 def delete_session(sender, instance: KeycloakSession, **kwargs):
-    try:
-        from django.contrib.sessions.models import Session
-        Session.objects.filter(pk=instance.django_session_key).delete()
-    except Exception:
-        pass
+    from django.contrib.sessions.models import Session
+    Session.objects.filter(pk=instance.django_session_key).delete()
+
+
+def delete_keycloak_session(sender, instance: Session, **kwargs):
+    KeycloakSession.objects.filter(django_session_key=instance.pk).delete()
+
+
+def create_keycloak_user(sender, session: KeycloakSession, request, userinfo, **kwargs):
+    fields = [f.name for f in KeycloakUser._meta.get_fields()]
+    attributes = {k: v for k, v in userinfo.items() if k in fields}
+    attributes['raw_data'] = userinfo
+    attributes['provider'] = session.provider
+    KeycloakUser.objects.update_or_create(
+        defaults=attributes,
+        user=request.user
+    )
 
 
 post_delete.connect(delete_session, sender=KeycloakSession)
+post_delete.connect(delete_keycloak_session, sender=Session)
+sso_user_login.connect(create_keycloak_user)

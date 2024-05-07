@@ -1,11 +1,14 @@
 {% load i18n static %}
-<div class="keycloak-auth">
-    <hr>
-    <p class="keycloak-auth-title">{% translate 'Login with' %}</p>
-    <div class="keycloak-auth-link">
-    {% for provider in providers %}
-        <a class="btn-sso-login" href="{{ provider.url }}">{{ provider.name }}</a>
-    {% endfor %}
-</div>
-</div>
+{% if has_providers %}
+    <div class="keycloak-auth">
+        <hr>
+        <p class="keycloak-auth-title">{% translate 'Login with' %}</p>
+        <div class="keycloak-auth-link">
+            {% for provider in providers %}
+                <a class="btn-sso-login" href="{{ provider.url }}">{{ provider.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
 

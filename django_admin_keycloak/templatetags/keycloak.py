@@ -19,11 +19,16 @@ def _get_providers(request):
         }
 
 
+def _has_providers() -> bool:
+    return KeycloakProvider.objects.filter(active=True).exists()
+
+
 @register.inclusion_tag('django_admin_keycloak/auth_link.html', takes_context=True)
 def keycloak_authorization_links(context):
     request = context['request']
     return {
         'providers': _get_providers(request),
+        'has_providers': _has_providers(),
     }
 
 
@@ -35,4 +40,7 @@ def get_account_link(context):
     except (KeycloakProvider.DoesNotExist, KeyError):
         return
 
-    return provider.get_account_link()
+    return provider.get_account_link(
+        referrer=provider.app_name,
+        referrer_uri=request.build_absolute_uri(request.path),
+    )
