@@ -44,13 +44,23 @@ def get_auth_url(provider: KeycloakProvider, request: HttpRequest, state: str | 
     return oidc_client.auth_url(
         request.build_absolute_uri(reverse('oidc-login', kwargs={'keycloak_slug': provider.slug})),
         scope=provider.scope,
-        state=state or ''
+        state=state or get_next_url(request, '')
     )
 
 
 def get_next_url(request: HttpRequest, default: str) -> str:
     try:
         next_url = request.GET['next']
+        if isinstance(next_url, (list, tuple)):
+            next_url = next_url[0]
+        return next_url
+    except KeyError:
+        return default
+
+
+def get_url_from_state(request: HttpRequest, default: str) -> str:
+    try:
+        next_url = request.GET['state']
         if isinstance(next_url, (list, tuple)):
             next_url = next_url[0]
         return next_url
@@ -88,7 +98,7 @@ def auth_oidc(provider: KeycloakProvider, request: HttpRequest):
 
     request.session.set_expiry(timedelta(seconds=access_token['refresh_expires_in']))
 
-    return get_next_url(request, provider.redirect_uri)
+    return get_url_from_state(request, provider.redirect_uri)
 
 
 def create_user(userinfo: dict) -> UserModel:

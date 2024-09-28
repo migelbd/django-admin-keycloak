@@ -5,12 +5,6 @@ from django_admin_keycloak.oidc import get_auth_url
 register = template.Library()
 
 
-@register.simple_tag(takes_context=True)
-def keycloak_authorization_url(context):
-    request = context['request']
-    return get_auth_url(request)
-
-
 def _get_providers(request):
     for provider in KeycloakProvider.objects.filter(active=True).iterator():
         yield {
