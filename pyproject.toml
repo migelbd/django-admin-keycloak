@@ -17,7 +17,7 @@ packages = [{ include = 'django_admin_keycloak' }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-python-keycloak = "^3.7.0"
+python-keycloak = "^4.4.0"
 django = ">=4, <6"
 
 [build-system]
