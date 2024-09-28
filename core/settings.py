@@ -99,4 +99,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 30
 
-SESSION_ENGINE = 'django_admin_keycloak.session.db'
+
