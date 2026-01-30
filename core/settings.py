@@ -100,6 +100,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 30
 
 
-
+# define static config or add provider later in admin management
+KEYCLOAK_PROVIDERS = [
+    {
+        'slug': 'devconf', # internal django slug
+        'name': 'DevConf', # name on login form
+        'client_id': 'local_django',
+        'client_secret': 'RNHRixJogAPL5lghBevD7WW92AC4XleW',
+        'redirect_uri': '/admin', # redirect uri after login
+        'server_url': 'https://id.devconf.su',
+        'realm_name': 'devconf',
+        'role_staff_user': 'django-staff', # role for staff users
+        'role_super_user': 'django-superuser', # role for superusers
+    }
+]
 
 
