@@ -1,14 +1,24 @@
+import logging
 from datetime import timedelta
 
 from django.utils import timezone
 
 from .models import KeycloakSession, KeycloakProvider
 
+logger = logging.getLogger('django_admin_keycloak')
 
-def save_sso_session(request, provider: KeycloakProvider, keycloak_session: str, keycloak_access_token: dict):
-    request.session['keycloak_sid'] = keycloak_session
+
+def save_sso_session(request, provider: KeycloakProvider, keycloak_session: str | None):
     request.session['keycloak_pk'] = provider.pk
-    request.session['keycloak_access_token'] = keycloak_access_token
+
+    # ``keycloak_session`` (the ``session_state`` param) is the primary key of
+    # KeycloakSession. Without it we cannot track the SSO session for back-channel
+    # logout, so skip creating a row rather than crashing on a NULL UUID PK.
+    if not keycloak_session:
+        logger.warning('No session_state returned by Keycloak; skipping SSO session tracking')
+        clear_sso_session()
+        return None
+
     try:
         session = KeycloakSession.objects.get(pk=keycloak_session)
         session.django_session_key = request.session.session_key

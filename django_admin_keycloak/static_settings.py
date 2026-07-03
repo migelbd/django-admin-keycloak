@@ -9,7 +9,7 @@ REQUIRED_PROPERTIES = (
     'server_url',
     'realm_name',
     'client_id',
-    'client_secret',
+    # client_secret is intentionally optional: public clients have no secret.
     'redirect_uri',
     'role_super_user',
     'role_staff_user',

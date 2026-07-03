@@ -66,7 +66,9 @@ class KeycloakProvider(models.Model):
 
 class KeycloakSession(models.Model):
     provider = models.ForeignKey(KeycloakProvider, on_delete=models.CASCADE, related_name='sessions')
-    sid = models.UUIDField(primary_key=True, verbose_name=_('SID'), editable=False)
+    # OIDC session identifiers (session_state / logout token `sid`) are opaque strings,
+    # not necessarily UUIDs, so store them as text rather than UUIDField.
+    sid = models.CharField(primary_key=True, max_length=255, verbose_name=_('SID'), editable=False)
     django_session_key = models.CharField(_("session key"), max_length=40)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='sso_sessions')
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
@@ -86,7 +88,7 @@ class KeycloakUser(models.Model):
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='keycloak_user')
     preferred_username = models.CharField(_('username'), max_length=128)
     given_name = models.CharField(_('first name'), max_length=128, blank=True)
-    family_name = models.CharField(_('first name'), max_length=128, blank=True)
+    family_name = models.CharField(_('last name'), max_length=128, blank=True)
     email = models.EmailField(_('email address'), null=True, blank=True)
     email_verified = models.BooleanField(_('email verified'), default=False)
     raw_data = models.JSONField()

@@ -1,5 +1,7 @@
 # django-admin-keycloak
 
+[![Tests](https://github.com/migelbd/django-admin-keycloak/actions/workflows/tests.yml/badge.svg)](https://github.com/migelbd/django-admin-keycloak/actions/workflows/tests.yml)
+
 ![](https://github.com/migelbd/django-admin-keycloak/raw/main/example.png)
 
 ## Keycloak

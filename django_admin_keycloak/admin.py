@@ -49,7 +49,7 @@ class KeycloakProviderAdmin(admin.ModelAdmin):
     def get_exclude(self, request, obj=None):
         excluded = list(super().get_exclude(request, obj) or [])
         if obj and getattr(obj, 'is_static', False):
-            return excluded.append('client_secret')
+            excluded.append('client_secret')
         return excluded
 
     def has_change_permission(self, request, obj=None):

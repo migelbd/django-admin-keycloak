@@ -37,9 +37,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         providers = PROVIDERS or []
 
+        valid_providers = []
         for provider in providers:
+            if not provider.get('slug'):
+                self.stderr.write('- Skipping provider without slug\n')
+                continue
+            valid_providers.append(provider)
             obj, created = self.create_or_update_provider(provider)
             self.stdout.write(f'- {"Updating" if not created else "Created"} provider {obj}\n')
 
-        for name in self.remove_static_providers(*[provider['slug'] for provider in providers]):
+        for name in self.remove_static_providers(*[provider['slug'] for provider in valid_providers]):
             self.stdout.write(f'- Remove provider {name}\n')
