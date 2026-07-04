@@ -19,28 +19,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Install Poetry
-        run: pipx install poetry
-
-      - name: Cache Poetry virtualenv
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          enable-cache: true
 
       - name: Install dependencies
-        run: poetry install --no-interaction --no-root
+        run: uv sync
 
       - name: Check for missing migrations
-        run: poetry run python manage.py makemigrations --check --dry-run
+        run: uv run python manage.py makemigrations --check --dry-run
 
       - name: Django system checks
-        run: poetry run python manage.py check
+        run: uv run python manage.py check
 
       - name: Run tests
-        run: poetry run python manage.py test django_admin_keycloak --verbosity 2
+        run: uv run python manage.py test django_admin_keycloak --verbosity 2
