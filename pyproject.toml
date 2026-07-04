@@ -1,6 +1,6 @@
 [project]
 name = "django-admin-keycloak"
-version = "1.0.1"
+version = "1.0.3"
 description = "Django Admin Keycloak"
 readme = "README.md"
 authors = [{ name = "Mikhail Badrazhan", email = "mikhail@devilweb.ru" }]
